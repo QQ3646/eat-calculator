@@ -10,11 +10,11 @@ import android.view.View;
 import android.widget.TextSwitcher;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    Fragment previousFragment;
     Fragment mainFragment;
 
     TextSwitcher title;
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
         setSupportActionBar(toolbar);
         //Костыль, дабдабя
-        getSupportActionBar().setTitle("");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         toolbar.setNavigationOnClickListener(this::backFragment);
 
@@ -73,21 +73,21 @@ public class MainActivity extends AppCompatActivity {
                 typeOfCategory = CategoryFragment.FAVORITE;
                 nameOfFragment = getString(R.string.favorite);
         }
-        changeFragment(CategoryFragment.newInstance(typeOfCategory, ""), nameOfFragment, true);
+        changeFragment(CategoryFragment.newInstance(typeOfCategory, ""), nameOfFragment);
     }
 
-    //true - next, false - back
-    private void changeFragment(Fragment fragment, String arg, boolean nextOrBack) {
-        if (previousFragment != null && previousFragment.equals(mainFragment) && getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-            previousFragment = null;
-        }
-        else if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            previousFragment = getSupportFragmentManager().findFragmentById(R.id.mainContainer);
-        }
-        getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer, fragment).commit();
-        changeText(arg, nextOrBack);
+    private void changeFragment(Fragment fragment, String arg) {
+//        if (previousFragment != null && previousFragment.equals(mainFragment) && getSupportActionBar() != null) {
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+//            previousFragment = null;
+//        }
+//        else if (getSupportActionBar() != null) {
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//            previousFragment = getSupportFragmentManager().findFragmentById(R.id.mainContainer);
+//        }
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.mainContainer, fragment).commit();
+        changeText(arg, true);
     }
 
     void changeText(String text, boolean nextOrBack) {
@@ -100,16 +100,22 @@ public class MainActivity extends AppCompatActivity {
         }
         title.setText(text);
     }
-    //TODO: выпилить/переписать ненужную функцию
-    public void backFragment(View view) {
-//        getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer, previousFragment).commit();
-        changeFragment(previousFragment, mainActivityText, false);
 
+    public void backFragment(View view) {
+        getSupportFragmentManager().popBackStack();
+        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
+            changeText(mainActivityText, false);
+        } else {
+            changeText(getSupportFragmentManager()
+                    .getBackStackEntryAt(getSupportFragmentManager()
+                            .getBackStackEntryCount() - 1).getName(), false);
+        }
     }
 
     @Override
     public void onBackPressed() {
-        if (previousFragment == null)
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0)
             super.onBackPressed();
         else
             backFragment(null);

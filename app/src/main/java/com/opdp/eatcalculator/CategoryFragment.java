@@ -1,5 +1,7 @@
 package com.opdp.eatcalculator;
 
+import android.app.ActivityManager;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -100,6 +102,6 @@ public class CategoryFragment extends Fragment {
     }
 
     public void onClick(View view) {
-        System.out.println("[");
+        startActivity(new Intent(getContext(), RecipeActivity.class));
     }
 }

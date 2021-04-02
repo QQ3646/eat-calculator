@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Калькулятор еды</string>
+    <string name="recipe">Рецепты</string>
+    <string name="products">Продукты</string>
+    <string name="favorite">Избранное</string>
+    <string name="products_list">Список продуктов</string>
+    <string name="action_settings">Настройки</string>
+</resources>
