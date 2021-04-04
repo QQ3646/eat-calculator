@@ -1,13 +1,12 @@
 package com.opdp.eatcalculator;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextSwitcher;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import java.util.Calendar;
 import java.util.Objects;
@@ -46,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         }
         title.setCurrentText(mainActivityText);
 
-        mainFragment = MainFragment.newInstance("", "");
+        mainFragment = MainFragment.newInstance();
 
         getSupportFragmentManager().beginTransaction().add(R.id.mainContainer,
                 mainFragment).commit();
@@ -66,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
                 nameOfFragment = getString(R.string.recipe);
                 break;
             case (R.id.products_card):
-                typeOfCategory = CategoryFragment.CATEGORY_OF_PRODUCTS;
-                nameOfFragment = getString(R.string.products);
+                typeOfCategory = CategoryFragment.CATEGORY_OF_TYPE_OF_PRODUCTS;
+                nameOfFragment = getString(R.string.type_of_products);
                 break;
             case (R.id.favorite_card):
                 typeOfCategory = CategoryFragment.FAVORITE;
@@ -77,14 +76,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void changeFragment(Fragment fragment, String arg) {
-//        if (previousFragment != null && previousFragment.equals(mainFragment) && getSupportActionBar() != null) {
-//            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-//            previousFragment = null;
-//        }
-//        else if (getSupportActionBar() != null) {
-//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//            previousFragment = getSupportFragmentManager().findFragmentById(R.id.mainContainer);
-//        }
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.mainContainer, fragment).commit();
         changeText(arg, true);

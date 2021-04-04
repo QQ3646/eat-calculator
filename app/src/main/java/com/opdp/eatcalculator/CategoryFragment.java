@@ -2,11 +2,13 @@ package com.opdp.eatcalculator;
 
 import android.app.ActivityManager;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -30,10 +32,12 @@ public class CategoryFragment extends Fragment {
 //    public static final String PRODUCTS = "PRODUCTS";
 //    public static final String FAVORITE = "FAVORITE";
 
-    public static final int CATEGORY_OF_PRODUCTS = 0;
+    public static final int CATEGORY_OF_TYPE_OF_PRODUCTS = 0;
     public static final int CATEGORY_OF_RECIPES = 1;
     public static final int FAVORITE = 2;
     public static final int HISTORY = 3;
+    public static final int CATEGORY_OF_PRODUCTS = 0;
+    public static final int CATEGORY_OF_POD_PRODUCTS = 0;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -89,15 +93,25 @@ public class CategoryFragment extends Fragment {
             MaterialCardView anotherCard = (MaterialCardView) LayoutInflater.from(getContext()).inflate(R.layout.sample_blank_card, view.findViewById(R.id.cont), false);
             ((TextView) anotherCard.findViewById(R.id.card_text)).setText(Integer.toString(i));
             anotherCard.setOnClickListener(this::onClick);
-            anotherCard.findViewById(R.id.pic).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((ImageView) anotherCard.findViewById(R.id.pic)).setImageResource(R.drawable.ic_baseline_favorite_24);
-                }
-            });
+            if (mParam1 == CATEGORY_OF_RECIPES) {
+                ImageButton imageButton = new ImageButton(getContext());
+                imageButton.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+                imageButton.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+                imageButton.setBackgroundColor(ContextCompat.getColor(getContext(), android.R.color.transparent));
+                imageButton.setContentDescription("!favorite");
+                imageButton.setOnClickListener(v -> {
+                    if (imageButton.getContentDescription().equals("!favorite")) {
+                        imageButton.setContentDescription("favorite");
+                        imageButton.setImageResource(R.drawable.ic_baseline_favorite_24);
+                    } else {
+                        imageButton.setContentDescription("!favorite");
+                        imageButton.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+                    }
+                });
+                ((LinearLayout) anotherCard.findViewById(R.id.favLayout)).addView(imageButton);
+            }
             ((LinearLayout) view.findViewById(R.id.cont)).addView(anotherCard);
         }
-
         super.onViewCreated(view, savedInstanceState);
     }
 
