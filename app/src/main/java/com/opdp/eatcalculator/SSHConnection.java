@@ -26,6 +26,8 @@ public class SSHConnection extends AsyncTask<String, Integer, Void> {
             prop.put("StrictHostKeyChecking", "no");
             session.setConfig(prop);
 
+//            session.setConfig("PreferredAuthentications", );
+
             session.connect();
 
             // exec 'scp -t rfile' remotely

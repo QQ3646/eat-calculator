@@ -21,6 +21,8 @@ import android.widget.TextView;
 
 import com.google.android.material.card.MaterialCardView;
 
+import java.util.Objects;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link CategoryFragment#newInstance} factory method to
@@ -97,7 +99,7 @@ public class CategoryFragment extends Fragment {
                 ImageButton imageButton = new ImageButton(getContext());
                 imageButton.setImageResource(R.drawable.ic_baseline_favorite_border_24);
                 imageButton.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
-                imageButton.setBackgroundColor(ContextCompat.getColor(getContext(), android.R.color.transparent));
+                imageButton.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.transparent));
                 imageButton.setContentDescription("!favorite");
                 imageButton.setOnClickListener(v -> {
                     if (imageButton.getContentDescription().equals("!favorite")) {

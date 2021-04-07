@@ -18,10 +18,8 @@ import com.google.android.material.card.MaterialCardView;
 public class MainFragment extends Fragment {
 
     public MainFragment() {
-        // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
     public static MainFragment newInstance() {
         MainFragment fragment = new MainFragment();
         Bundle args = new Bundle();
